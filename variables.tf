@@ -238,6 +238,12 @@ variable "public_subnet_tags" {
   default     = {}
 }
 
+variable "public_subnet_tags_per_subnet" {
+  description = "Additional tags for the public subnets, if specified then must have a length equal to the number of public subnets"
+  type        = list(map(string))
+  default     = []
+}
+
 variable "public_subnet_tags_per_az" {
   description = "Additional tags for the public subnets where the primary key is the AZ"
   type        = map(map(string))
@@ -366,16 +372,34 @@ variable "private_subnet_tags" {
   default     = {}
 }
 
+variable "private_subnet_tags_per_subnet" {
+  description = "Additional tags for the private subnets, if specified then must have a length equal to the number of private subnets"
+  type        = list(map(string))
+  default     = []
+}
+
 variable "private_subnet_tags_per_az" {
   description = "Additional tags for the private subnets where the primary key is the AZ"
   type        = map(map(string))
   default     = {}
 }
 
+variable "private_route_table_names" {
+  description = "Explicit values to use in the Name tag on private route tables. If empty, Name tags are generated."
+  type        = list(string)
+  default     = []
+}
+
 variable "private_route_table_tags" {
   description = "Additional tags for the private route tables"
   type        = map(string)
   default     = {}
+}
+
+variable "private_route_table_tags_per_subnet" {
+  description = "Additional tags for the private route tables, if specified then must have a length equal to the number of private subnets"
+  type        = list(map(string))
+  default     = []
 }
 
 ################################################################################
@@ -506,10 +530,22 @@ variable "create_database_nat_gateway_route" {
   default     = false
 }
 
+variable "database_route_table_names" {
+  description = "Explicit values to use in the Name tag on database route tables. If empty, Name tags are generated."
+  type        = list(string)
+  default     = []
+}
+
 variable "database_route_table_tags" {
   description = "Additional tags for the database route tables"
   type        = map(string)
   default     = {}
+}
+
+variable "database_route_table_tags_per_subnet" {
+  description = "Additional tags for the database route tables, if specified then must have a length equal to the number of database subnets"
+  type        = list(map(string))
+  default     = []
 }
 
 variable "database_subnet_tags" {
@@ -534,6 +570,12 @@ variable "database_subnet_group_tags" {
   description = "Additional tags for the database subnet group"
   type        = map(string)
   default     = {}
+}
+
+variable "database_subnet_tags_per_subnet" {
+  description = "Additional tags for the database subnets, if specified then must have a length equal to the number of database subnets"
+  type        = list(map(string))
+  default     = []
 }
 
 ################################################################################
@@ -688,6 +730,12 @@ variable "redshift_subnet_group_tags" {
   default     = {}
 }
 
+variable "redshift_subnet_tags_per_subnet" {
+  description = "Additional tags for the redshift subnets, if specified then must have a length equal to the number of redshift subnets"
+  type        = list(map(string))
+  default     = []
+}
+
 ################################################################################
 # Redshift Network ACLs
 ################################################################################
@@ -802,6 +850,12 @@ variable "elasticache_subnet_tags" {
   description = "Additional tags for the elasticache subnets"
   type        = map(string)
   default     = {}
+}
+
+variable "elasticache_subnet_tags_per_subnet" {
+  description = "Additional tags for the elasticache subnets, if specified then must have a length equal to the number of elasticache subnets"
+  type        = list(map(string))
+  default     = []
 }
 
 variable "create_elasticache_subnet_route_table" {
@@ -956,6 +1010,12 @@ variable "intra_route_table_tags" {
   default     = {}
 }
 
+variable "intra_subnet_tags_per_subnet" {
+  description = "Additional tags for the intra subnets, if specified then must have a length equal to the number of intra subnets"
+  type        = list(map(string))
+  default     = []
+}
+
 ################################################################################
 # Intra Network ACLs
 ################################################################################
@@ -1094,6 +1154,12 @@ variable "outpost_subnet_tags" {
   description = "Additional tags for the outpost subnets"
   type        = map(string)
   default     = {}
+}
+
+variable "outpost_subnet_tags_per_subnet" {
+  description = "Additional tags for the outpost subnets, if specified then must have a length equal to the number of outpost subnets"
+  type        = list(map(string))
+  default     = []
 }
 
 ################################################################################
