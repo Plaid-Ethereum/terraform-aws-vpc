@@ -348,6 +348,7 @@ variable "private_subnet_ipv6_native" {
   default     = false
 }
 
+
 variable "private_subnet_private_dns_hostname_type_on_launch" {
   description = "The type of hostnames to assign to instances in the subnet at launch. For IPv6-only subnets, an instance DNS name must be based on the instance ID. For dual-stack and IPv4-only subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID. Valid values: `ip-name`, `resource-name`"
   type        = string
@@ -1282,10 +1283,34 @@ variable "nat_gateway_tags" {
   default     = {}
 }
 
+variable "nat_gateway_tags_per_az" {
+  description = "Additional tags for the NAT gateways where the primary key is the AZ"
+  type        = map(map(string))
+  default     = {}
+}
+
+variable "nat_gateway_tags_per_subnet" {
+  description = "Additional tags for the NAT gateways, if specified then must have a length equal to the number of private subnets"
+  type        = list(map(string))
+  default     = []
+}
+
 variable "nat_eip_tags" {
   description = "Additional tags for the NAT EIP"
   type        = map(string)
   default     = {}
+}
+
+variable "nat_eip_tags_per_az" {
+  description = "Additional tags for the NAT EIPs where the primary key is the AZ"
+  type        = map(map(string))
+  default     = {}
+}
+
+variable "nat_eip_tags_per_subnet" {
+  description = "Additional tags for the NAT EIPs, if specified then must have a length equal to the number of private subnets"
+  type        = list(map(string))
+  default     = []
 }
 
 ################################################################################

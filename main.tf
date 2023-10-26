@@ -119,7 +119,8 @@ resource "aws_subnet" "public" {
     },
     var.tags,
     var.public_subnet_tags,
-    lookup(var.public_subnet_tags_per_az, element(var.azs, count.index), {})
+    lookup(var.public_subnet_tags_per_az, element(var.azs, count.index), {}),
+    length(var.public_subnet_tags_per_subnet) > 0 ? element(var.public_subnet_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -238,17 +239,15 @@ resource "aws_subnet" "private" {
 
   tags = merge(
     {
-      "Name" = try(
-        var.private_route_table_names[count.index],
-        var.single_nat_gateway ? "${var.name}-${var.private_subnet_suffix}" : format(
-          "${var.name}-${var.private_subnet_suffix}-%s",
-          element(var.azs, count.index),
-        )
+      Name = try(
+        var.private_subnet_names[count.index],
+        format("${var.name}-${var.private_subnet_suffix}-%s", element(var.azs, count.index))
       )
     },
     var.tags,
-    var.private_route_table_tags,
-    length(var.private_route_table_tags_per_subnet) > 0 ? element(var.private_route_table_tags_per_subnet, count.index) : {},
+    var.private_subnet_tags,
+    lookup(var.private_subnet_tags_per_az, element(var.azs, count.index), {}),
+    length(var.private_subnet_tags_per_subnet) > 0 ? element(var.private_subnet_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -261,16 +260,16 @@ resource "aws_route_table" "private" {
   tags = merge(
     {
       "Name" = try(
-        var.database_route_table_names[count.index],
-        var.single_nat_gateway || var.create_database_internet_gateway_route ? "${var.name}-${var.database_subnet_suffix}" : format(
-          "${var.name}-${var.database_subnet_suffix}-%s",
+        var.private_route_table_names[count.index],
+        var.single_nat_gateway ? "${var.name}-${var.private_subnet_suffix}" : format(
+          "${var.name}-${var.private_subnet_suffix}-%s",
           element(var.azs, count.index),
         )
       )
     },
     var.tags,
-    var.database_route_table_tags,
-    length(var.database_route_table_tags_per_subnet) > 0 ? element(var.database_route_table_tags_per_subnet, count.index) : {},
+    var.private_route_table_tags,
+    length(var.private_route_table_tags_per_subnet) > 0 ? element(var.private_route_table_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -371,9 +370,8 @@ resource "aws_subnet" "database" {
       )
     },
     var.tags,
-    var.public_subnet_tags,
-    lookup(var.public_subnet_tags_per_az, element(var.azs, count.index), {}),
-    length(var.public_subnet_tags_per_subnet) > 0 ? element(var.public_subnet_tags_per_subnet, count.index) : {},
+    var.database_subnet_tags,
+    length(var.database_subnet_tags_per_subnet) > 0 ? element(var.database_subnet_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -389,9 +387,7 @@ resource "aws_db_subnet_group" "database" {
       "Name" = lower(coalesce(var.database_subnet_group_name, var.name))
     },
     var.tags,
-    var.private_subnet_tags,
-    lookup(var.private_subnet_tags_per_az, element(var.azs, count.index), {}),
-    length(var.private_subnet_tags_per_subnet) > 0 ? element(var.private_subnet_tags_per_subnet, count.index) : {},
+    var.database_subnet_group_tags,
   )
 }
 
@@ -402,14 +398,17 @@ resource "aws_route_table" "database" {
 
   tags = merge(
     {
-      "Name" = var.single_nat_gateway || var.create_database_internet_gateway_route ? "${var.name}-${var.database_subnet_suffix}" : format(
-        "${var.name}-${var.database_subnet_suffix}-%s",
-        element(var.azs, count.index),
+      "Name" = try(
+        var.database_route_table_names[count.index],
+        var.single_nat_gateway || var.create_database_internet_gateway_route ? "${var.name}-${var.database_subnet_suffix}" : format(
+          "${var.name}-${var.database_subnet_suffix}-%s",
+          element(var.azs, count.index),
+        )
       )
     },
     var.tags,
-    var.outpost_subnet_tags,
-    length(var.outpost_subnet_tags_per_subnet) > 0 ? element(var.outpost_subnet_tags_per_subnet, count.index) : {},
+    var.database_route_table_tags,
+    length(var.database_route_table_tags_per_subnet) > 0 ? element(var.database_route_table_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -488,8 +487,7 @@ resource "aws_network_acl" "database" {
   tags = merge(
     { "Name" = "${var.name}-${var.database_subnet_suffix}" },
     var.tags,
-    var.database_subnet_tags,
-    length(var.database_subnet_tags_per_subnet) > 0 ? element(var.database_subnet_tags_per_subnet, count.index) : {},
+    var.database_acl_tags,
   )
 }
 
@@ -586,8 +584,7 @@ resource "aws_route_table" "redshift" {
   tags = merge(
     { "Name" = "${var.name}-${var.redshift_subnet_suffix}" },
     var.tags,
-    var.elasticache_subnet_tags,
-    length(var.elasticache_subnet_tags_per_subnet) > 0 ? element(var.elasticache_subnet_tags_per_subnet, count.index) : {},
+    var.redshift_route_table_tags,
   )
 }
 
@@ -628,8 +625,7 @@ resource "aws_network_acl" "redshift" {
   tags = merge(
     { "Name" = "${var.name}-${var.redshift_subnet_suffix}" },
     var.tags,
-    var.intra_subnet_tags,
-    length(var.intra_subnet_tags_per_subnet) > 0 ? element(var.intra_subnet_tags_per_subnet, count.index) : {},
+    var.redshift_acl_tags,
   )
 }
 
@@ -700,6 +696,7 @@ resource "aws_subnet" "elasticache" {
     },
     var.tags,
     var.elasticache_subnet_tags,
+    length(var.elasticache_subnet_tags_per_subnet) > 0 ? element(var.elasticache_subnet_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -829,6 +826,7 @@ resource "aws_subnet" "intra" {
     },
     var.tags,
     var.intra_subnet_tags,
+    length(var.intra_subnet_tags_per_subnet) > 0 ? element(var.intra_subnet_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -940,6 +938,7 @@ resource "aws_subnet" "outpost" {
     },
     var.tags,
     var.outpost_subnet_tags,
+    length(var.outpost_subnet_tags_per_subnet) > 0 ? element(var.outpost_subnet_tags_per_subnet, count.index) : {},
   )
 }
 
@@ -1067,6 +1066,8 @@ resource "aws_eip" "nat" {
     },
     var.tags,
     var.nat_eip_tags,
+    lookup(var.nat_eip_tags_per_az, element(var.azs, count.index), {}),
+    length(var.nat_eip_tags_per_subnet) > 0 ? element(var.nat_eip_tags_per_subnet, count.index) : {},
   )
 
   depends_on = [aws_internet_gateway.this]
@@ -1093,6 +1094,8 @@ resource "aws_nat_gateway" "this" {
     },
     var.tags,
     var.nat_gateway_tags,
+    lookup(var.nat_gateway_tags_per_az, element(var.azs, count.index), {}),
+    length(var.nat_gateway_tags_per_subnet) > 0 ? element(var.nat_gateway_tags_per_subnet, count.index) : {},
   )
 
   depends_on = [aws_internet_gateway.this]
