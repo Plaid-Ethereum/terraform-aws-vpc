@@ -2,6 +2,69 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.13.0](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.12.1...v5.13.0) (2024-08-16)
+
+
+### Features
+
+* Add support for `ip_address_type` for VPC endpoint ([#1096](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1096)) ([d868303](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/d868303bd78b8c56cf76e2495672d42b256a1387))
+
+## [5.12.1](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.12.0...v5.12.1) (2024-08-09)
+
+
+### Bug Fixes
+
+* Update flow log ARNs to use partition from aws_partition data source ([#1112](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1112)) ([72cde38](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/72cde38fb5c500323858bb44eaed2924c7f826f9))
+
+## [5.12.0](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.11.0...v5.12.0) (2024-08-03)
+
+
+### Features
+
+* Restrict flow log policy to use log group ARNs ([#1088](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1088)) ([9256722](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/92567225dc73ef939b86a241b9607cb13329fb75))
+
+## [5.11.0](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.10.0...v5.11.0) (2024-08-03)
+
+
+### Features
+
+* Add route to `0.0.0.0/0` & `::/0` (when IPv6 is enabled) on all public route tables ([#1100](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1100)) ([b3e7803](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/b3e78033bbee8346341a523f78f762ade41eb93b))
+
+## [5.10.0](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.9.0...v5.10.0) (2024-08-02)
+
+
+### Features
+
+* Added ipv6_address_preferred_lease_time parameter to aws_vpc_dhcp_options resource ([#1105](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1105)) ([3adb594](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/3adb594bc794468c80a99c5c1808056a88767f45))
+
+## [5.9.0](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.8.1...v5.9.0) (2024-07-05)
+
+
+### Features
+
+* Allow custom VPC Flow Log IAM Role name and IAM Policy name ([#1089](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1089)) ([f8cd168](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/f8cd1681837c8c4a24af6fe73035724a03e1e66e))
+
+## [5.8.1](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.8.0...v5.8.1) (2024-04-26)
+
+
+### Bug Fixes
+
+* Do not replace NAT gateways when additional subnets are added ([#1055](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1055)) ([cf18c37](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/cf18c37591f860908e2223b4f488787e8a5f74f3))
+
+## [5.8.0](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.7.2...v5.8.0) (2024-04-25)
+
+
+### Features
+
+* Add support for multiple route tables to public and intra subnets ([#1051](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1051)) ([da05f24](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/da05f24c5c603a31d320d5ad92493bb39fea9f3d))
+
+## [5.7.2](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.7.1...v5.7.2) (2024-04-24)
+
+
+### Bug Fixes
+
+* Create private_ipv6_egress routes only when having at least one private subnet ([#1062](https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/1062)) ([8701204](https://github.com/terraform-aws-modules/terraform-aws-vpc/commit/8701204c28a0ff984c5ade71400c6208c6953bfc))
+
 ## [5.7.1](https://github.com/terraform-aws-modules/terraform-aws-vpc/compare/v5.7.0...v5.7.1) (2024-04-06)
 
 
