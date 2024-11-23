@@ -1,0 +1,6 @@
+﻿roleAssignmentId,roleDefinitionId,roleDisplayName,isBuiltIn,principalId,userPrincipalName,displayName,objectType,userType,directoryScopeId,directoryScopeName,directoryScopeType
+kl2Jm9Msx0SdAqasLV6lwyJRsn-JLwpHpjr6PlbQ6K8-1,9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3,Application Administrator,True,7fb25122-2f89-470a-a63a-fa3e56d0e8af,678@4344348.onmicrosoft.com,Karam Moore,user,Member,/,YSF,Directory
+8vBtnHwew02xlWbfvSSqjyJRsn-JLwpHpjr6PlbQ6K8-1,9c6df0f2-1e7c-4dc3-b195-66dfbd24aa8f,Attack Payload Author,True,7fb25122-2f89-470a-a63a-fa3e56d0e8af,678@4344348.onmicrosoft.com,Karam Moore,user,Member,/,YSF,Directory
+lrMwxJPmzEaW89sBv4u2KiJRsn-JLwpHpjr6PlbQ6K8-1,c430b396-e693-46cc-96f3-db01bf8bb62a,Attack Simulation Administrator,True,7fb25122-2f89-470a-a63a-fa3e56d0e8af,678@4344348.onmicrosoft.com,Karam Moore,user,Member,/,YSF,Directory
+a3EmBT0RFUyyyGjjwiufgCJRsn-JLwpHpjr6PlbQ6K8-1,0526716b-113d-4c15-b2c8-68e3c22b9f80,Authentication Policy Administrator,True,7fb25122-2f89-470a-a63a-fa3e56d0e8af,678@4344348.onmicrosoft.com,Karam Moore,user,Member,/,YSF,Directory
+lAPpYvVpN0KRkAEhdxReECJRsn-JLwpHpjr6PlbQ6K8-1,62e90394-69f5-4237-9190-012177145e10,Global Administrator,True,7fb25122-2f89-470a-a63a-fa3e56d0e8af,678@4344348.onmicrosoft.com,Karam Moore,user,Member,/,YSF,Directory
